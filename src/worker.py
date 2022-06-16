@@ -107,7 +107,7 @@ class Worker:
 					row["ad_delivery_start_time"] or default_date,
 					row["ad_delivery_stop_time"] or default_date,
 					row["ad_snapshot_url"] or "NA",
-					self._get_first_list_value(row["ad_creative_bodies"]),
+					self._get_first_list_value(row["ad_creative_bodies"]).translate(str.maketrans({ '"': r'\"' })),
 					row["page_id"],
 					row["page_name"],
 					row["currency"] or "NA",
