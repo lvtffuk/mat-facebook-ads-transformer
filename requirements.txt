@@ -1,0 +1,5 @@
+spacy-udpipe
+python-dotenv
+pyarrow
+pandas
+alive-progress
