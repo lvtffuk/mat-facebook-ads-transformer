@@ -15,7 +15,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: mat-facebook-ad-transformer
+  IMAGE_NAME: mat-facebook-ads-transformer
 
 jobs:
   # Run tests.
