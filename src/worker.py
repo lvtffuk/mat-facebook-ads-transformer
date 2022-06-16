@@ -92,6 +92,7 @@ class Worker:
 		region_writer = Writer(self._get_output_file_path("df_region.csv"), REGION_HEADER)
 		demographic_writer = Writer(self._get_output_file_path("df_demographics_unnested.csv"), DEMOGRAPHIC_HEADER)
 		imp_writer = Writer(self._get_output_file_path("df_imp.csv"), IMP_HEADER)
+		default_date = datetime.now().strftime("%Y-%m-%d")
 		with alive_bar(len(df.index)) as bar:		
 			for index, row in df.iterrows():
 				for t in self._process_nlp(row["ad_creative_bodies"]):
@@ -103,15 +104,15 @@ class Worker:
 				spend = self._fb_range_to_range(row["spend"])
 				imp_writer.write_row([
 					row["ad_creation_time"],
-					row["ad_delivery_start_time"] or "NA",
-					row["ad_delivery_stop_time" or "NA"],
+					row["ad_delivery_start_time"] or default_date,
+					row["ad_delivery_stop_time"] or default_date,
 					row["ad_snapshot_url"] or "NA",
 					self._get_first_list_value(row["ad_creative_bodies"]),
 					row["page_id"],
 					row["page_name"],
 					row["currency"] or "NA",
-					spend.min,
-					spend.max,
+					str(spend.min),
+					str(spend.max),
 					row["bylines"],
 					row["id"],
 					row["id"],
@@ -127,7 +128,7 @@ class Worker:
 		self._save_csv(
 			self._get_output_file_path("total_ads_per_page.csv"),
 			["page_name", "n_ads"],
-			sorted(self._regions.items(), key=lambda l: l[1], reverse=True)
+			sorted(self._pages.items(), key=lambda l: l[1], reverse=True)
 		)
 		self._save_csv(
 			self._get_output_file_path("total_ads_per_funding.csv"),
@@ -142,7 +143,7 @@ class Worker:
 		self._save_csv(
 			self._get_output_file_path("config.csv"),
 			["mindate", "maxdate"],
-			[self._min_date.strftime("%Y-%m-%d"), self._max_date.strftime("%Y-%m-%d")]
+			[[self._min_date.strftime("%Y-%m-%d"), self._max_date.strftime("%Y-%m-%d")]]
 		)
 		corpus_writer.close()
 		region_writer.close()
@@ -279,8 +280,6 @@ class Worker:
 		writer.close()
 
 	def _get_first_list_value(self, lst: list, default_value: str = "NA") -> str:
-		if not isinstance(lst, list):
-			return default_value
 		if len(lst) > 0:
 			return lst[0]
 		return default_value
