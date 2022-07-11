@@ -6,5 +6,5 @@ WORKDIR /usr/src/app
 COPY . .
 RUN pip install -r requirements.txt
 # connect the repository to the container
-LABEL org.opencontainers.image.source https://github.com/zabkwak/mat-facebook-ads-transformer
+LABEL org.opencontainers.image.source https://github.com/lvtffuk/mat-facebook-ads-transformer
 CMD [ "python", "./" ]
