@@ -111,12 +111,12 @@ class Worker:
 					row["page_id"],
 					row["page_name"],
 					row["currency"] or "NA",
-					str(spend.min),
-					str(spend.max),
+					str(spend.min or 0),
+					str(spend.max or 0),
 					row["bylines"],
 					row["id"],
 					row["id"],
-					spend.mid,
+					str(spend.mid or 0),
 					spend.to_string(),
 					self._get_first_list_value(row["languages"])
 				])
