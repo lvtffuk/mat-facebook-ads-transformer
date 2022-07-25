@@ -6,6 +6,8 @@ class Range:
 
 	@property
 	def mid(self) -> float:
+		if self.min is None or self.max is None:
+			return None
 		return (self.min + self.max) / 2
 
 	def __init__(self, min: int, max: int) -> None:
